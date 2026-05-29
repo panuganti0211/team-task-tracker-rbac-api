@@ -1,0 +1,54 @@
+{
+  "name": "team-task-tracker-api",
+  "version": "1.0.0",
+  "description": "Production-grade REST API for Team Task Tracker system",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "prisma:seed": "node src/prisma/seed.js",
+    "prisma:studio": "prisma studio",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/ --ext .js"
+  },
+  "keywords": [
+    "task",
+    "tracker",
+    "team",
+    "api",
+    "rest",
+    "express"
+  ],
+  "author": "NextWave",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "redis": "^4.6.12",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.23.5",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "prisma": "^5.7.1",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

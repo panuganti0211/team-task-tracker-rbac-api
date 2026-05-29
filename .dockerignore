@@ -1,0 +1,13 @@
+.dockerignore
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.local
+.DS_Store
+coverage
+.nyc_output
+.vscode
+.idea
+*.log

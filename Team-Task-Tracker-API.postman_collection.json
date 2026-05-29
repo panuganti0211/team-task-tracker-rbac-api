@@ -1,0 +1,248 @@
+﻿{
+  "info": {
+    "_postman_id": "team-task-tracker-api-collection",
+    "name": "Team Task Tracker API",
+    "description": "Complete Postman collection for Team Task Tracker API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"NewUser@123456\",\n  \"firstName\": \"New\",\n  \"lastName\": \"User\",\n  \"organizationName\": \"New Organization\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set('accessToken', jsonData.data.accessToken);",
+                  "  pm.environment.set('refreshToken', jsonData.data.refreshToken);",
+                  "  pm.environment.set('userId', jsonData.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Admin@123456\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set('accessToken', jsonData.data.accessToken);",
+                  "  pm.environment.set('refreshToken', jsonData.data.refreshToken);",
+                  "}",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/refresh", "host": ["{{baseUrl}}"], "path": ["auth", "refresh"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set('accessToken', jsonData.data.accessToken);",
+                  "  pm.environment.set('refreshToken', jsonData.data.refreshToken);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Implement authentication system\",\n  \"description\": \"Create JWT authentication with refresh rotation\",\n  \"priority\": \"HIGH\",\n  \"dueDate\": \"2028-12-31T23:59:59.000Z\",\n  \"assigneeId\": null\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/tasks", "host": ["{{baseUrl}}"], "path": ["tasks"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  var jsonData = pm.response.json();",
+                  "  pm.environment.set('taskId', jsonData.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Task",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/tasks/{{taskId}}", "host": ["{{baseUrl}}"], "path": ["tasks", "{{taskId}}"] }
+          }
+        },
+        {
+          "name": "Update Task Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/tasks/{{taskId}}", "host": ["{{baseUrl}}"], "path": ["tasks", "{{taskId}}"] }
+          }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/tasks/{{taskId}}", "host": ["{{baseUrl}}"], "path": ["tasks", "{{taskId}}"] }
+          }
+        },
+        {
+          "name": "List Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tasks?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["tasks"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter Tasks by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tasks?status=TODO&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["tasks"],
+              "query": [
+                { "key": "status", "value": "TODO" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Pagination Example",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tasks?page=2&limit=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["tasks"],
+              "query": [
+                { "key": "page", "value": "2" },
+                { "key": "limit", "value": "5" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": []
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "exec": []
+      }
+    }
+  ]
+}

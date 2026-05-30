@@ -1,6 +1,6 @@
-import { asyncHandler } from '../utils/helpers.js';
-import { AuthService } from '../services/authService.js';
-import { formatApiResponse } from '../utils/helpers.js';
+import { asyncHandler } from '../../utils/helpers.js';
+import { AuthService } from '../../services/authService.js';
+import { formatApiResponse } from '../../utils/helpers.js';
 
 export const register = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName, organizationName } = req.body;

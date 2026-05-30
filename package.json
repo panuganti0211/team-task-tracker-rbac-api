@@ -4,6 +4,9 @@
   "description": "Production-grade REST API for Team Task Tracker system",
   "main": "src/app.js",
   "type": "module",
+    "prisma": {
+    "schema": "./src/prisma/schema.prisma"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",

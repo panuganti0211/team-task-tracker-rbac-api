@@ -30,6 +30,17 @@ export class AuthService {
       name: organizationName,
     });
 
+    const hashedPassword = await hashPassword(password);
+
+    const user = await AuthRepository.createUser({
+      email,
+      password: hashedPassword,
+      firstName,
+      lastName,
+      role: USER_ROLES.ADMIN,
+      organizationId: organization.id,
+    });
+
     // Generate tokens with tokenId
     const refreshTokenRecord = await AuthRepository.storeRefreshToken(
       user.id,

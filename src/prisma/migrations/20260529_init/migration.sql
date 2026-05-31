@@ -1,7 +1,8 @@
 -- Prisma Migrate Migration SQL
 
 CREATE TABLE "organizations" (
-    "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    -- "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    "id" TEXT PRIMARY KEY,
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP
@@ -12,7 +13,8 @@ CREATE TYPE "TaskPriority" AS ENUM ('LOW', 'MEDIUM', 'HIGH');
 CREATE TYPE "TaskStatus" AS ENUM ('TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE', 'BLOCKED');
 
 CREATE TABLE "users" (
-    "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    -- "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    "id" TEXT PRIMARY KEY,
     "email" TEXT NOT NULL UNIQUE,
     "password" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
@@ -27,7 +29,8 @@ CREATE INDEX "users_organizationId_index" ON "users" ("organizationId");
 CREATE INDEX "users_email_index" ON "users" ("email");
 
 CREATE TABLE "tasks" (
-    "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    -- "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    "id" TEXT PRIMARY KEY,
     "title" TEXT NOT NULL,
     "description" TEXT,
     "priority" "TaskPriority" NOT NULL DEFAULT 'MEDIUM',
@@ -50,7 +53,8 @@ CREATE INDEX "tasks_organizationId_status_index" ON "tasks" ("organizationId", "
 CREATE INDEX "tasks_organizationId_assigneeId_index" ON "tasks" ("organizationId", "assigneeId");
 
 CREATE TABLE "refresh_tokens" (
-    "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    -- "id" TEXT PRIMARY KEY DEFAULT cuid(),
+    "id" TEXT PRIMARY KEY,
     "hashedToken" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
@@ -60,3 +64,4 @@ CREATE TABLE "refresh_tokens" (
 );
 CREATE INDEX "refresh_tokens_userId_index" ON "refresh_tokens" ("userId");
 CREATE INDEX "refresh_tokens_expiresAt_index" ON "refresh_tokens" ("expiresAt");
+do

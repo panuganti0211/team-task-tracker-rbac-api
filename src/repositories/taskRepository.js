@@ -2,13 +2,34 @@ import prisma from '../config/prisma.js';
 import { NotFoundError } from '../utils/errors.js';
 import { getOffset } from '../utils/helpers.js';
 
+
+
+const userSelect = {
+  id: true,
+  email: true,
+  firstName: true,
+  lastName: true,
+  role: true,
+  organizationId: true,
+  createdAt: true,
+  updatedAt: true,
+};
+
+
 export class TaskRepository {
+
+
+
   static async createTask(data) {
     return prisma.task.create({
       data,
       include: {
-        assignee: true,
-        createdBy: true,
+        assignee:  {
+    select: userSelect,
+  },
+        createdBy:  {
+    select: userSelect,
+  },
         organization: true,
       },
     });
@@ -20,11 +41,15 @@ export class TaskRepository {
         id,
         organizationId,
       },
-      include: {
-        assignee: true,
-        createdBy: true,
-        organization: true,
-      },
+            include: {
+              assignee:  {
+    select: userSelect,
+  },
+              createdBy:  {
+    select: userSelect,
+  },
+              organization: true,
+            },
     });
 
     if (!task) {
@@ -46,8 +71,12 @@ export class TaskRepository {
         return prisma.task.findFirst({
           where: { id, organizationId },
           include: {
-            assignee: true,
-            createdBy: true,
+            assignee:  {
+    select: userSelect,
+  },
+            createdBy:  {
+    select: userSelect,
+  },
             organization: true,
           },
         });
@@ -107,8 +136,13 @@ export class TaskRepository {
           [sortBy]: sortOrder,
         },
         include: {
-          assignee: true,
-          createdBy: true,
+          assignee:  {
+    select: userSelect,
+  },
+          createdBy:  {
+    select: userSelect,
+  },
+          organization: true,
         },
       }),
       prisma.task.count({ where }),
@@ -144,8 +178,13 @@ export class TaskRepository {
           [sortBy]: sortOrder,
         },
         include: {
-          assignee: true,
-          createdBy: true,
+          assignee:  {
+    select: userSelect,
+  },
+          createdBy:  {
+    select: userSelect,
+  },
+          organization: true,
         },
       }),
       prisma.task.count({ where }),
